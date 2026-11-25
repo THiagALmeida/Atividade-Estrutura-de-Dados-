@@ -1,0 +1,57 @@
+﻿Leitura dos arquivos: 10000 usuarios, 19998 linhas de amizade (0 invalidas), 10 topicos, 14.0 ms (fora do benchmark)
+
+=== 0. Matriz x lista de adjacencia (10 repeticoes, clock() de <time.h>) ===
+Operacao (media de 10 execucoes)              Matriz (ms)       Lista (ms) Matriz/Lista
+Construir (inserir todas as amizades)        25.70 +- 1.64      3.80 +- 0.92       6.8x
+Grau de todos os usuarios                    17.60 +- 1.58      0.80 +- 0.42      22.0x
+1.000.000 consultas 'sao amigos?'            15.90 +- 1.29     25.10 +- 1.60       0.6x
+Componentes conexos (BFS em todos)           68.60 +- 4.65      1.50 +- 0.53      45.7x
+Amigos em comum (10.000 pares)               48.20 +- 2.04      1.90 +- 0.88      25.4x
+
+Memoria: matriz = 95.4 MB | lista = 0.72 MB (132x menos)
+Conferencia: as duas estruturas deram os MESMOS resultados em todas as operacoes.
+
+=== 1. A rede ===
+Usuarios: 10000 | amizades unicas: 19996 (2 repetidas no arquivo foram ignoradas)
+Grau medio: 4.00 amigos | maior grau: 14 | sem nenhum amigo: 177 (1.8%)
+Densidade: 0.04000% das amizades possiveis existem -> grafo ESPARSO
+Componentes conexos: 182 | o maior tem 9815 usuarios (98.2%)
+Graus de separacao no maior componente (amostra de 200 origens): media 6.72, maximo visto 12
+
+=== 2. Usuarios mais influentes (grau; empate decidido pelo PageRank, 67 iteracoes) ===
+#    Nome                   Usuario           Grau  PageRank Postes  Topicos
+1    Martin Shepard         martin574           14     3.106    297  Moda, Educação
+2    Kaitlyn Turner         kaitlyn261          14     2.982    125  Tecnologia, Filmes
+3    Marc James             marc167             13     2.741    493  Música, Esportes, Saúde
+4    Melanie Kennedy        melanie200          12     2.655    339  Esportes, Viagens, Comida
+5    Thomas Stevens         thomas985           12     2.650     79  Saúde, Tecnologia, Moda
+6    Dominique Fields       dominique128        12     2.573    119  Comida
+7    Benjamin Merritt       benjamin712         12     2.562    442  Música
+8    Michael Dyer           michael917          12     2.554    280  Moda, Jogos, Educação
+9    Tamara Lopez           tamara540           12     2.542    466  Moda
+10   Vanessa Ramirez        vanessa263          12     2.531    144  Filmes, Jogos
+(PageRank x n: 1,0 = media; quem tem amigos bem conectados sobe mesmo com o mesmo grau)
+Top 5 so por PageRank: martin574 (grau 14, 3.11); kaitlyn261 (grau 14, 2.98); marc167 (grau 13, 2.74); melanie200 (grau 12, 2.66); thomas985 (grau 12, 2.65)
+Correlacao (Pearson) grau x postes = 0.001 | grau x tempo na rede = -0.001 -> perto de 0: postar mais ou estar ha mais tempo NAO da mais amigos nesta base
+
+=== 3. Interesses ===
+Usuarios por topico: Música 1949 | Esportes 1996 | Saúde 2027 | Tecnologia 2058 | Moda 1961 | Filmes 1973 | Viagens 2093 | Jogos 2001 | Educação 2097 | Comida 2089
+Amizades com pelo menos 1 topico em comum: 37.1% (pares ao acaso: 36.9%)
+Similaridade media de interesses (Jaccard): amigos 0.132 x ao acaso 0.130
+-> sem homofilia: nesta base as amizades nao seguem os interesses (os dados parecem gerados ao acaso). Interesse em comum serve para SUGERIR amizades, nao para explicar as que existem.
+Maiores grupos com EXATAMENTE os mesmos interesses (2+ topicos):
+  101 usuarios: Educação, Comida
+   96 usuarios: Tecnologia, Comida
+   87 usuarios: Tecnologia, Jogos
+   85 usuarios: Moda, Educação
+   84 usuarios: Saúde, Filmes
+Pares de AMIGOS com os mesmos interesses (2+ topicos): 70
+
+=== 4. Sugestoes de amizade (amigos de amigos; desempate por interesses) ===
+martin574: chris776 (1 em comum, Jaccard 0.33); keith190 (1 em comum, Jaccard 0.33); daniel934 (1 em comum, Jaccard 0.33)
+kaitlyn261: lisa457 (1 em comum, Jaccard 0.67); charles354 (1 em comum, Jaccard 0.67); tina519 (1 em comum, Jaccard 0.50)
+marc167: marcia451 (1 em comum, Jaccard 0.67); andre565 (1 em comum, Jaccard 0.67); amy838 (1 em comum, Jaccard 0.67)
+9815 usuarios receberam sugestoes (lista completa em recomendacoes.csv)
+Triangulos (grupos de 3 amigos mutuos): 7 -> amizades quase nunca fecham grupo, outro sinal de rede gerada ao acaso
+
+Arquivos gerados em resultados/: benchmark.csv, ranking.csv, recomendacoes.csv, distribuicao_graus.csv
