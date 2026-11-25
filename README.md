@@ -75,10 +75,7 @@ correlação de Pearson, teoria dos conjuntos (índice de Jaccard), modelo nulo 
 grafo aleatório de Erdős–Rényi (Poisson e teste qui-quadrado). Para refazer as contas de forma independente:
 `python toolserificar_teoria.py`.
 
-## Roteiro do videocast (≈8 min, um membro por bloco)
 
-1. **(1 min) O problema:** rede social fictícia, 10 mil usuários; o que é vértice (usuário) e aresta (amizade, não direcionada).
-2. **(2 min) Implementações:** mostrar `grafo_matriz.c` e `grafo_lista.c` lado a lado; inserir, consultar, grau, BFS; por que a matriz é simétrica e por que a lista checa repetida (os 2 pares duplicados do arquivo).
 3. **(2 min) Benchmark:** rodar `rede.exe`, mostrar o gráfico; explicar com complexidade (n² × n + m) e a exceção das consultas O(1); memória 95 MB × 0,7 MB.
 4. **(2 min) Análise da rede:** influentes (grau + PageRank), seis graus de separação, interesses e a ausência de homofilia (dados aleatórios, 7 triângulos), sugestões de amizade.
 5. **(1 min) Conclusão e limitações:** lista para grafo esparso; resolução do `clock()`; dados sintéticos; possíveis extensões (betweenness, comunidades com Louvain, lista com vetor dinâmico em vez de encadeada).
